@@ -1,5 +1,7 @@
 # GUnitTest
 
+![alt text](preview.png)
+
 GUnitTest is an addon for Garry's Mod that enables developers to unit-test their Lua projects within the game environment. This tool provides detailed console outputs on any errors or the results of passed/failed tests, enhancing your ability to debug and refine your Garry's Mod addons or scripts.
 
 ## Features
@@ -22,8 +24,6 @@ You can configure GUnitTest using the following console commands:
 - `gunittest_enable [0 / 1]`: Enable or disable GUnitTest. Note that this setting is off by default on dedicated servers and requires a restart when changed.
 
 ## Usage
-
-To use GUnitTest, write your test cases using the provided `Should` function, which supports a chainable syntax for assertions. Any lua-errors will show up as "Error" instead of "Failed" for each test.
 
 GUnitTest test files should be structured appropriately and placed within your project's directory. The standard location for these test files is in the `<projectFolder>/lua/unittest/<projectName>/` directory. Replace `<projectName>` with the specific name of your project or the relevant subdirectory
 
@@ -122,6 +122,8 @@ return {
 ## GUnitTest `Should` Functions Overview
 
 Each test in GUnitTest is executed in its own isolated environment. The `Should(val)` function is designed for use strictly within the test environment and will not be available outside of it. This ensures that tests do not affect other parts of your project unintentionally.
+
+After invoking an assertion, you should use `.And:` to chain further assertions related to the initial value. The `.Result` property of a `Should` object can be used to retrieve the original value passed to `Should(val)`, allowing for additional unrelated checks or operations.
 
 <details>
 <summary><strong>Boolean Assertions</strong></summary>
