@@ -177,6 +177,8 @@ After invoking an assertion, you should use `.And:` to chain further assertions 
 <summary><strong>String Assertions</strong></summary>
 
 - **BeString()**: Asserts the object is a string.
+- **BeEmpty()**: Asserts a string is empty.
+- **NotBeEmpty()**: Asserts a string is not empty.
 - **StartWith(value)**: Asserts the string starts with the specified value.
 - **EndWith(value)**: Asserts the string ends with the specified value.
 - **ContainString(value)**: Asserts the string contains the specified substring.
