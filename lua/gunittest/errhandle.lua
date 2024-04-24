@@ -44,7 +44,7 @@ local function locateProblem(str)
     return {file = fil, line = line, error = err, var = var, failedTest = failedTest}
 end
 
---- Retrive the 3 lines before and after the error line.
+---Gets the lines from the file.
 local function getLines(fil, line)
     local lines = {}
     local file = file.Open(fil, "r", "GAME")

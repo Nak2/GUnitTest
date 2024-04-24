@@ -197,8 +197,14 @@ end
 ---Asserts that the object be empty.
 ---@return UnitResult
 function unitObj:BeEmpty()
-    if #self.Result ~= 0 then
-        self:Assert(string.format("Expected object to be empty, but got %d elements", #self.Result))
+    if self.__type == "string" then
+        if #self.Result ~= 0 then
+            self:Assert(string.format("Expected string to be empty, but got %d characters", #self.Result))
+        end
+    else
+        if table.Count(self.Result) ~= 0 then
+            self:Assert(string.format("Expected object to be empty, but got %d elements", #self.Result))
+        end
     end
     return swap(self)
 end
@@ -206,8 +212,14 @@ end
 ---Asserts that the object not be empty.
 ---@return UnitResult
 function unitObj:NotBeEmpty()
-    if #self.Result == 0 then
-        self:Assert("Expected object to not be empty")
+    if self.__type == "string" then
+        if #self.Result == 0 then
+            self:Assert("Expected string to not be empty")
+        end
+    else
+        if table.Count(self.Result) == 0 then
+            self:Assert("Expected object to not be empty")
+        end
     end
     return swap(self)
 end
@@ -315,7 +327,7 @@ end
 ---@param key any # The key to check for.
 ---@param val any? # The value to check for.
 ---@return UnitResult
-function unitObj:HaveKey(key, val)
+function unitObj:ContainKey(key, val)
     if not self.Result[key] then
         self:Assert(string.format("Expected object to contain key [%s]", tostring(key)))
     end
@@ -330,7 +342,7 @@ end
 ---Asserts that the object have specific keys.
 ---@param ... any # The keys to check for.
 ---@return UnitResult
-function unitObj:HaveKeys(...)
+function unitObj:ContainKeys(...)
     local keys = {...}
     for _, key in pairs(keys) do
         if not self.Result[key] then

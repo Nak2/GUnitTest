@@ -168,8 +168,8 @@ After invoking an assertion, you should use `.And:` to chain further assertions 
 - **BeOrdered()**: Asserts the elements in a collection are in ascending order.
 - **BeSameItems()**: Asserts all items in a collection are the same.
 - **HaveCount(count)**: Asserts the collection contains a specific number of items.
-- **HaveKey(key, val?)**: Asserts the collection contains a specific key, and optionally checks if the key's value matches the specified value.
-- **HaveKeys(...)**: Asserts the collection contains all specified keys.
+- **ContainKey(key, val?)**: Asserts the collection contains a specific key, and optionally checks if the key's value matches the specified value.
+- **ContainKeys(...)**: Asserts the collection contains all specified keys.
 
 </details>
 
