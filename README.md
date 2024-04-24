@@ -31,13 +31,15 @@ The file must return a table containing "cases" and a "groupname". If there is n
 
 Additionally, the table can contain an "init" function. This will be the first thing to run in the new test environment, and if it fails, all other cases in the file will be ignored.
 
+`_G._UNITTEST` is set to true within the test environment to indicate active testing. `_G.GUnitTest.CURRENTENV` represents the current environment being tested, and all net-functions are blocked to ensure test isolation and integrity.
+
 <details>
 <summary><strong>Test File Example</strong></summary>
   
 ```lua
 -- File: lua/unittest/<projectName>/meta_test.lua
 return {
-    groupname = "Complex MetaTable",
+    groupname = "Test Example",
     init = function()
         -- Initial setup for the test group.
         Should(_UNITTEST)
