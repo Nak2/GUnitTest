@@ -188,6 +188,13 @@ After invoking an assertion, you should use `.And:` to chain further assertions 
 <details>
 <summary><strong>Custom Function Assertion</strong></summary>
 
-- **Pass(fun)**: Executes a custom function that must return `true` for the assertion to pass.
+- **Pass(fun)**: Executes a custom function with the object as an argument, that must return `true` for the assertion to pass.
+
+</details>
+
+<details>
+<summary><strong>Other</strong></summary>
+
+- **WithMessage(msg?)**: Will override any errors within the chain with the given message. If no message is given, it will clear the existing override.
 
 </details>
