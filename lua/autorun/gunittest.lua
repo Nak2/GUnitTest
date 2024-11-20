@@ -5,11 +5,11 @@ local autorun = CreateConVar("gunittest_autorun", "0", FCVAR_ARCHIVE, "Should GU
 local enable = CreateConVar("gunittest_enable", game.IsDedicated() and "0" or "1", FCVAR_ARCHIVE, "Should GUnit be enabled?")
 -- If enabled, add all CS files in the gunittest folder to the download lis for the client.
 if enable:GetBool() then
-    local _, folders = file.Find("lua/gunittest/", "GAME")
+    local _, folders = file.Find("lua/unittest/*", "GAME")
     for _, folder in ipairs(folders or {}) do
-        local files = file.Find("lua/gunittest/" .. folder .. "/*.lua", "GAME")
+        local files = file.Find("lua/unittest/" .. folder .. "/*.lua", "GAME")
         for _, file in ipairs(files or {}) do
-            AddCSLuaFile("gunittest/" .. folder .. "/" .. file)
+            AddCSLuaFile("unittest/" .. folder .. "/" .. file)
         end
     end
 else
@@ -54,8 +54,13 @@ local function conHelp(com, args)
     return tbl
 end
 
-concommand.Add("gunittest_run", conFunc, conHelp, "Run all tests or tests in a specific folder.")
-concommand.Add("gunittest_run_fullreport", conFunc, conHelp, "Run all tests or tests in a specific folder. Also prints all test results.")
+if SERVER then
+    concommand.Add("gunittest_run", conFunc, conHelp, "Run all tests or tests in a specific folder.")
+    concommand.Add("gunittest_run_fullreport", conFunc, conHelp, "Run all tests or tests in a specific folder. Also prints all test results.")
+elseif enable:GetBool() then
+    concommand.Add("gunittest_run_cl", conFunc, conHelp, "Run all tests or tests in a specific folder.")
+    concommand.Add("gunittest_run_fullreport_cl", conFunc, conHelp, "Run all tests or tests in a specific folder. Also prints all test results.")
+end
 
 if autorun:GetBool() then
     GUnitTest.PrintResults(false, GUnitTest.RunAllTests())
