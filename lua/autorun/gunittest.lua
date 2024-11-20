@@ -1,6 +1,15 @@
 
 AddCSLuaFile()
 
+---@class GUnit.Cases
+---@field groupname string
+---@field init function? # Optional initialization function for the test group.
+---@field cases GUnit.Case[] # Array of test cases.
+
+---@class GUnit.Case
+---@field name string # The name of the test case.
+---@field func function # The function containing the test logic.
+
 local autorun = CreateConVar("gunittest_autorun", "0", FCVAR_ARCHIVE, "Should GUnit run automatically when the server starts?")
 local enable = CreateConVar("gunittest_enable", game.IsDedicated() and "0" or "1", FCVAR_ARCHIVE, "Should GUnit be enabled?")
 -- If enabled, add all CS files in the gunittest folder to the download lis for the client.

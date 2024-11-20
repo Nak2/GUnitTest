@@ -1,15 +1,6 @@
 --- Emmy support. You can copy this file into your project and use it to get autocompletion in your IDE.
 --- @meta
 
----@class GUnit.Cases
----@field groupname string
----@field init function? # Optional initialization function for the test group.
----@field cases GUnit.Case[] # Array of test cases.
-
----@class GUnit.Case
----@field name string # The name of the test case.
----@field func function # The function containing the test logic.
-
 ---@class GUnit.UnitTest
 ---@field WithMessage fun(self: GUnit.UnitTest, message: string): GUnit.UnitResult # Sets a custom error message.
 ---@field Exist fun(self: GUnit.UnitTest): GUnit.UnitResult # Asserts that the object exists.
@@ -43,7 +34,7 @@
 
 ---@class GUnit.UnitResult
 ---@field And GUnit.UnitTest # Provides chainable access to the original UnitTest object.
----@field Result any # The result of the last assertion.
+---@field Result any # The value being tested.
 
 if false then
     --- Creates a new test case.

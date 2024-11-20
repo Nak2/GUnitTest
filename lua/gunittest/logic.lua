@@ -82,6 +82,8 @@ local function runTestFolder(comResults, folder)
     local files = file.Find("unittest/" .. folder .. "/*.lua", "LUA")
     for _, file in pairs(files or {}) do
         local r = GUnitTest.include("unittest/" .. folder .. "/" .. file)
+        if not r or not r.groupname then continue end -- No tests found
+
         local title = comResults.titles[folder]
         if not title then
             title = {results = {}, success = true, cost = 0}
