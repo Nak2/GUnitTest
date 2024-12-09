@@ -15,6 +15,15 @@ local function createNew()
     newEnv._UNITTEST = true
     newEnv.Should = GUnitTest.Should
     newEnv.net = setmetatable({}, net) -- Prevent access to net library
+    newEnv.prints = {}
+    newEnv.print = function(...)
+        local args = {...}
+        local tab = {}
+        for index, value in ipairs(args) do
+            tab[index] = tostring(value)
+        end
+        newEnv.prints[#newEnv.prints + 1] = table.concat(tab, "\t")
+    end
     return setmetatable(newEnv, {__index = _G, __newindex = rawset})
 end
 
@@ -35,8 +44,12 @@ function GUnitTest.CreateNewEnvironment()
     return setmetatable({ENV = createNew(), DefaultEnv = _G}, env)
 end
 
+_GUNITTEST_PRINT = _GUNITTEST_PRINT or print
+
 function env:SetEnv(func)
+    self.ENV.prints = {}
     GUnitTest.CURRENTENV = self.ENV
+    print = self.ENV.print
     setfenv(func or 0, self.ENV)
 end
 
@@ -45,9 +58,10 @@ end
 function env:Reset(func)
     setfenv(func or 0, self.DefaultEnv)
     GUnitTest.CURRENTENV = nil
+    print = _GUNITTEST_PRINT
 end
 
----Runs the function in the environment. Returns trie on success, false on failure. Second return value is the error message.
+---Runs the function in the environment. Returns true on success, false on failure. Second return value is the error message.
 ---@param fil string #The file path
 ---@param func function #The function to run
 ---@param ... any #Arguments to pass to the function

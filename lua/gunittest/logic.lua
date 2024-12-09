@@ -6,6 +6,7 @@
 ---@field cost number
 ---@field line number?
 ---@field file string?
+---@field prints string[]?
 local caseResult = {}
 caseResult.__index = caseResult
 
@@ -20,8 +21,11 @@ results.__index = results
 ---@param success boolean
 ---@param cost number
 ---@param error GUnitError?
-function results:AddNewResult(name, success, cost, error)
-    table.insert(self.results, setmetatable({name = name, success = success, cost = cost, error = error}, caseResult))
+---@param prints string[]?
+function results:AddNewResult(name, success, cost, error, prints)
+    ---@type GU_caseResult
+    local res = setmetatable({name = name, success = success, cost = cost, error = error, prints = prints}, caseResult)
+    table.insert(self.results, res)
     self.success = self.success and success
     self.cost = (self.cost or 0) + cost
 end
@@ -48,7 +52,7 @@ function GUnitTest.include(path)
         if success then
             result:AddNewResult("Init", true, cost)
         else
-            result:AddNewResult("Init", false, cost, err)
+            result:AddNewResult("Init", false, cost, err, env.ENV.prints)
             return result
         end
     end
@@ -59,7 +63,7 @@ function GUnitTest.include(path)
         if success then
             result:AddNewResult(v.name, true, cost)
         else
-            result:AddNewResult(v.name, false, cost, err)
+            result:AddNewResult(v.name, false, cost, err, env.ENV.prints)
         end
     end
     return result
@@ -195,6 +199,12 @@ function GUnitTest.PrintResults(foldOut, testResult)
                     MsgC(successColor, "Passed\n")
                 else
                     MsgC(errColor, value.error.failedTest and "Failed\n" or "Error\n")
+                end
+                -- For each print line
+                if value.prints != nil then
+                    for _, line in pairs(value.prints) do
+                        MsgC(gray, string.format("\t\t%s\n", line))
+                    end
                 end
             end
         end
