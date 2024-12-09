@@ -47,7 +47,7 @@ local function conFunc(ply, con, args)
     else
         results = GUnitTest.RunAllTests()
     end
-    GUnitTest.PrintResults(con == "gunittest_run_fullreport", results)
+    GUnitTest.PrintResults(con == "gunittest_run_fullreport" or con == "gunittest_run_fullreport_cl", results)
 end
 
 local function conHelp(com, args)
